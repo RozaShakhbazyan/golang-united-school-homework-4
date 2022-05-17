@@ -36,9 +36,14 @@ func StringSum(input string) (output string, err error) {
 	}
 
 	for i := 0; i < len(input); i++ {
-		if i == 0 && isOperand(rune(input[0])) {
-
-			continue
+		if i == 0 {
+			if isOperand(rune(input[0])) {
+				continue
+			}
+			if isLetter(rune(input[0])) {
+				_, err = strconv.Atoi(string(input[0]))
+				return "", fmt.Errorf("%w", err)
+			}
 
 		}
 
@@ -51,19 +56,29 @@ func StringSum(input string) (output string, err error) {
 
 			a, err = strconv.Atoi(strings.TrimSpace(input[:i]))
 			if err != nil {
-				if !isOperand(rune(input[i])) || isOperand(rune(input[(i+1)%len(input)])) {
+				if isOperand(rune(input[(i+1)%len(input)])) {
 
 					return "", fmt.Errorf("%w", err)
 				}
+				if isLetter(rune(input[(i+1)%len(input)])) {
+					_, err = strconv.Atoi(string(input[(i+1)%len(input)]))
+					return "", fmt.Errorf("%w", err)
+				}
 				return "", fmt.Errorf("%w", errorNotTwoOperands)
+
 			}
 			b, err = strconv.Atoi(strings.TrimSpace(input[i+1:]))
 			if err != nil {
-				if !isOperand(rune(input[i])) || isOperand(rune(input[(i+1)%len(input)])) {
+				if isOperand(rune(input[(i+1)%len(input)])) {
 
 					return "", fmt.Errorf("%w", err)
 				}
+				if isLetter(rune(input[(i+1)%len(input)])) {
+					_, err = strconv.Atoi(string(input[(i+1)%len(input)]))
+					return "", fmt.Errorf("%w", err)
+				}
 				return "", fmt.Errorf("%w", errorNotTwoOperands)
+
 			}
 			if input[i] == '+' {
 				return strconv.Itoa(a + b), nil
@@ -76,4 +91,10 @@ func StringSum(input string) (output string, err error) {
 }
 func isOperand(input rune) bool {
 	return input == '+' || input == '-'
+}
+func isLetter(input rune) bool {
+
+	val := input >= 'a' && input <= 'z' || input >= 'A' && input <= 'Z'
+
+	return val
 }

@@ -13,7 +13,7 @@ var (
 	errorEmptyInput = errors.New("input is empty")
 	// Use when the expression has number of operands not equal to two
 	errorNotTwoOperands = errors.New("expecting two operands, but received more or less")
-	errorLetter         = errors.New("expecting a number, +, -, but received a letter")
+	
 )
 
 // Implement a function that computes the sum of two int numbers written as a string
@@ -33,7 +33,7 @@ func StringSum(input string) (output string, err error) {
 	input = strings.TrimSpace(input)
 
 	if input == "" {
-		return "", fmt.Errorf("%s", errorEmptyInput)
+		return "", fmt.Errorf("%w", errorEmptyInput)
 	}
 
 	for i := 0; i < len(input); i++ {
@@ -45,17 +45,17 @@ func StringSum(input string) (output string, err error) {
 
 		if isOperand(rune(input[i])) {
 			if isOperand(rune(input[(i+1)%len(input)])) {
-				return "", fmt.Errorf("%s", errorNotTwoOperands)
+				return "", fmt.Errorf("%w", errorNotTwoOperands)
 
 			}
 
 			a, err = strconv.Atoi(strings.TrimSpace(input[:i]))
 			if err != nil {
-				return "", fmt.Errorf("%s", errorNotTwoOperands)
+				return "", fmt.Errorf("%w", err)
 			}
 			b, err = strconv.Atoi(strings.TrimSpace(input[i+1:]))
 			if err != nil {
-				return "", fmt.Errorf("%s", errorNotTwoOperands)
+				return "", fmt.Errorf("%w", err)
 			}
 
 			if input[i] == '+' {
@@ -65,7 +65,7 @@ func StringSum(input string) (output string, err error) {
 			}
 		}
 	}
-	return "", fmt.Errorf("%s", errorLetter)
+	return "", fmt.Errorf("%w", errorNotTwoOperands)
 }
 func isOperand(input rune) bool {
 	return input == '+' || input == '-'

@@ -32,7 +32,7 @@ func StringSum(input string) (output string, err error) {
 	input = strings.TrimSpace(input)
 
 	if input == "" {
-		return "", fmt.Errorf("%s", errorEmptyInput)
+		return "", errorEmptyInput
 	}
 
 	for i := 0; i < len(input); i++ {
@@ -64,7 +64,7 @@ func StringSum(input string) (output string, err error) {
 			}
 		}
 	}
-	return "", nil
+	return "", fmt.Errorf("%s", errorNotTwoOperands)
 }
 func isOperand(input rune) bool {
 	return input == '+' || input == '-'

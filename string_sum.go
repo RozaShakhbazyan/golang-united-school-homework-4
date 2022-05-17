@@ -32,7 +32,7 @@ func StringSum(input string) (output string, err error) {
 	input = strings.TrimSpace(input)
 
 	if input == "" {
-		return "", errorEmptyInput
+		return "", fmt.Errorf("%s", errorEmptyInput)
 	}
 
 	for i := 0; i < len(input); i++ {

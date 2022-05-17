@@ -51,7 +51,7 @@ func StringSum(input string) (output string, err error) {
 
 			a, err = strconv.Atoi(strings.TrimSpace(input[:i]))
 			if err != nil {
-				if !isOperand(rune(input[i])) {
+				if !isOperand(rune(input[i])) || !isOperand(rune(input[(i+1)%len(input)])) {
 					return "", fmt.Errorf("%w", errorNotTwoOperands)
 
 				}
@@ -59,7 +59,7 @@ func StringSum(input string) (output string, err error) {
 			}
 			b, err = strconv.Atoi(strings.TrimSpace(input[i+1:]))
 			if err != nil {
-				if !isOperand(rune(input[i])) {
+				if !isOperand(rune(input[i])) || !isOperand(rune(input[(i+1)%len(input)])) {
 					return "", fmt.Errorf("%w", errorNotTwoOperands)
 
 				}

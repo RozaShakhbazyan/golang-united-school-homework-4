@@ -28,7 +28,7 @@ var (
 func StringSum(input string) (output string, err error) {
 	var a int
 	var b int
-	var o int = 0
+
 	input = strings.TrimSpace(input)
 
 	if input == "" {
@@ -37,13 +37,13 @@ func StringSum(input string) (output string, err error) {
 
 	for i := 0; i < len(input); i++ {
 		if i == 0 && isOperand(rune(input[0])) {
-			o++
+
 			continue
 
 		}
 
 		if isOperand(rune(input[i])) {
-			o++
+
 			if isOperand(rune(input[(i+1)%len(input)])) {
 				return "", fmt.Errorf("%w", errorNotTwoOperands)
 
@@ -51,7 +51,7 @@ func StringSum(input string) (output string, err error) {
 
 			a, err = strconv.Atoi(strings.TrimSpace(input[:i]))
 			if err != nil {
-				if isOperand(rune(input[(i+1)%len(input)])) || o < 2 {
+				if isOperand(rune(input[(i+1)%len(input)])) {
 
 					return "", fmt.Errorf("%w", err)
 				}
@@ -59,7 +59,7 @@ func StringSum(input string) (output string, err error) {
 			}
 			b, err = strconv.Atoi(strings.TrimSpace(input[i+1:]))
 			if err != nil {
-				if isOperand(rune(input[(i+1)%len(input)])) || o < 2 {
+				if isOperand(rune(input[(i+1)%len(input)])) {
 
 					return "", fmt.Errorf("%w", err)
 				}

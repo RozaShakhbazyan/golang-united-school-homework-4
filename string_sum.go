@@ -13,7 +13,6 @@ var (
 	errorEmptyInput = errors.New("input is empty")
 	// Use when the expression has number of operands not equal to two
 	errorNotTwoOperands = errors.New("expecting two operands, but received more or less")
-	
 )
 
 // Implement a function that computes the sum of two int numbers written as a string
@@ -29,7 +28,7 @@ var (
 func StringSum(input string) (output string, err error) {
 	var a int
 	var b int
-
+	var o int = 0
 	input = strings.TrimSpace(input)
 
 	if input == "" {
@@ -38,12 +37,13 @@ func StringSum(input string) (output string, err error) {
 
 	for i := 0; i < len(input); i++ {
 		if i == 0 && isOperand(rune(input[0])) {
-
+			o++
 			continue
 
 		}
 
 		if isOperand(rune(input[i])) {
+			o++
 			if isOperand(rune(input[(i+1)%len(input)])) {
 				return "", fmt.Errorf("%w", errorNotTwoOperands)
 
@@ -51,11 +51,17 @@ func StringSum(input string) (output string, err error) {
 
 			a, err = strconv.Atoi(strings.TrimSpace(input[:i]))
 			if err != nil {
-				return "", fmt.Errorf("%w", err)
+				if o < 2 {
+					return "", fmt.Errorf("%w", err)
+				}
+				return "", fmt.Errorf("%w", errorNotTwoOperands)
 			}
 			b, err = strconv.Atoi(strings.TrimSpace(input[i+1:]))
 			if err != nil {
-				return "", fmt.Errorf("%w", err)
+				if o < 2 {
+					return "", fmt.Errorf("%w", err)
+				}
+				return "", fmt.Errorf("%w", errorNotTwoOperands)
 			}
 
 			if input[i] == '+' {

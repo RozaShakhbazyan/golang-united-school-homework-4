@@ -46,7 +46,7 @@ func StringSum(input string) (output string, err error) {
 			}
 
 		}
-		if !isOperand(rune(input[i])) {
+		if !isOperand(rune(input[i])) && input[i] != ' ' {
 			_, err = strconv.Atoi(string(input[i]))
 			if err != nil {
 				return "", fmt.Errorf("%w", err)

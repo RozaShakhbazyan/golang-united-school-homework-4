@@ -80,7 +80,7 @@ func StringSum(input string) (output string, err error) {
 					return "", fmt.Errorf("%w", err)
 				}
 				if isLetter(rune(input[(i+1)%len(input)])) {
-					_, err = strconv.Atoi(string(input[(i+1)%len(input)]))
+					_, err = strconv.Atoi(string(input[(i+1)%len(input):]))
 					return "", fmt.Errorf("%w", err)
 				}
 				return "", fmt.Errorf("%w", errorNotTwoOperands)

@@ -46,6 +46,12 @@ func StringSum(input string) (output string, err error) {
 			}
 
 		}
+		if !isOperand(rune(input[i])) {
+			_, err = strconv.Atoi(string(input[i]))
+			if err != nil {
+				return "", fmt.Errorf("%w", err)
+			}
+		}
 
 		if isOperand(rune(input[i])) {
 
